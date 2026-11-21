@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jajal.agent — $JAL fair launch + skill directory for Agent ID holders</title>
+<meta name="description" content="jajal.agent: a fair share launch of $JAL and an on-chain skill directory for Agent ID holders. First 1,000 shares free (1 per Agent ID). Deadline Dec 5, 2026 — miss the target and every buyer is refunded 100%.">
+<link rel="icon" type="image/webp" href="assets/logo.webp">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#">
+      <img src="assets/logo.webp" alt="jajal.agent logo" class="brand-logo">
+      <span class="brand-name">jajal.agent</span>
+    </a>
+    <nav class="header-links">
+      <a href="#sale">Share Sale</a>
+      <a href="#checkin">Daily Check-In</a>
+      <a href="#directory">Skill Directory</a>
+      <a href="https://x.com/jajall9rry" target="_blank" rel="noopener">X — @jajall9rry</a>
+    </nav>
+    <div class="wallet-box">
+      <span id="agentid-badge" class="badge hidden">Agent ID ✓</span>
+      <button id="connect-btn" class="btn btn-primary">Connect Wallet</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <img src="assets/banner.webp" alt="jajal.agent" class="hero-banner">
+    <h1>A fair launch and a skill directory, built on Agent ID.</h1>
+    <p class="hero-sub">
+      jajal.agent lives on BNB Smart Chain and has three parts: a one-time share sale of the
+      <strong>$JAL</strong> token with rules written into an immutable contract,
+      <strong>AgentCraft</strong> — a permanent skill directory where Agent ID holders register
+      their skills and endorse each other, on-chain — and an optional daily check-in that
+      rewards 7 check-in days — they don't have to be in a row — with a badge and a one-time JAL bonus.
+    </p>
+    <p id="deploy-notice" class="notice hidden">
+      The contracts are not live yet. The sale opens on <strong>21 November 2026</strong> —
+      follow <a href="https://x.com/jajall9rry" target="_blank" rel="noopener">@jajall9rry</a> for the launch announcement.
+    </p>
+  </section>
+
+  <!-- ======================= SALE ======================= -->
+  <section id="sale" class="panel">
+    <h2>$JAL Share Sale</h2>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <span class="stat-label">Shares taken</span>
+        <span class="stat-value" id="stat-sold">— / 10,000</span>
+        <div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Free quota left</span>
+        <span class="stat-value" id="stat-free-left">— / 1,000</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Current tier price</span>
+        <span class="stat-value" id="stat-price">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Total raised</span>
+        <span class="stat-value" id="stat-raised">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Sale ends (UTC)</span>
+        <span class="stat-value">Dec 5, 2026 · 16:59</span>
+        <span class="stat-sub" id="countdown">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Sale status</span>
+        <span class="stat-value" id="stat-status">—</span>
+      </div>
+    </div>
+
+    <div class="how">
+      <h3>How it works — the rules, in the open</h3>
+      <ul>
+        <li><strong>10,000 shares.</strong> 1 share = 100,000 JAL if the sale completes. Maximum 11 shares per wallet.</li>
+        <li><strong>First 1,000 shares are free</strong> — 1 per Agent ID holder, first come first served, claimed on this page.</li>
+        <li><strong>Then paid tiers:</strong> the price rises every 1,000 shares — 0.0001 BNB per share in tier 1, up to 0.0009 BNB in tier 9. Paid shares open only after the free quota is gone.</li>
+        <li><strong>If all 10,000 shares are taken</strong> (the deadline does not matter): the pool opens — from Dec 4, 2026, 17:00 UTC at the earliest, because the contract gates the one-time finalize step until then even if the sale sells out earlier. 50% of the BNB raised, together with 1,000,000,000 JAL, seeds a JAL/WBNB pool on PancakeSwap V2 and the LP tokens are burned — locked permanently. The other 50% is returned to buyers as cashback when they claim. Buyers then claim their JAL plus their cashback, released by the contract in waves by share position (see the claim panel below).</li>
+        <li><strong>If the target is missed by the deadline</strong> (Dec 5, 2026, 16:59 UTC): every buyer can withdraw a <strong>100% refund</strong> of what they paid. Free shares simply expire. No JAL is ever minted in this case.</li>
+        <li><strong>Token supply — minted once, only if the sale completes:</strong> exactly 2,500,000,000 JAL. Of that: 1,000,000,000 JAL (40%) for participant claims, 1,000,000,000 JAL (40%) into the liquidity pool, 200,000,000 JAL (8%) team allocation under the vesting schedule below, and 300,000,000 JAL (12%) held by the check-in contract as a bonus reserve (see Daily Check-In). If the sale fails, no JAL is minted at all — the supply stays zero.</li>
+        <li><strong>Team allocation, disclosed:</strong> the 200,000,000 JAL team share is held by the sale contract as a vesting balance — it is not sent to any wallet at launch. It unlocks on a fixed schedule — nothing for the first 30 days after the pool opens, then released linearly over the next 90 days — and can only ever be withdrawn by the team beneficiary address named in the contract.</li>
+        <li><strong>Optional daily check-in:</strong> a separate contract lets Agent ID holders check in once a day for a 0.0001 BNB fee, collect 7 check-in days (they don't have to be in a row) for a soulbound badge, and — after the pool opens — claim a one-time bonus from the 300,000,000 JAL reserve. It is entirely optional and never required for the sale. Full rules are in the Daily Check-In panel below.</li>
+        <li>Every rule above is enforced by the contract code itself. There is no owner, no admin key, and no withdraw function — nobody can change the rules or take the funds, including the team.</li>
+      </ul>
+    </div>
+
+    <div class="risk">
+      <h3>⚠ Risk warning — read this first</h3>
+      <p>
+        $JAL is a speculative community token. It has no guaranteed value, and if a pool opens its
+        price can fall — including to zero. Cashback and refunds are simply the sale rules written
+        above; they are <strong>not</strong> a promise of profit or returns of any kind. Only take
+        part with money you can afford to lose entirely, and verify the contract yourself before
+        sending any BNB.
+      </p>
+    </div>
+
+    <!-- Free claim -->
+    <div id="free-box" class="action-box">
+      <h3>Claim your free share</h3>
+      <p class="muted">
+        One free share per Agent ID holder. This site asks free claimers to follow the project on X
+        first — that follow requirement is a <strong>site rule only</strong>: it is checked here in
+        your browser and is <strong>not</strong> verified by the smart contract (X follows cannot be
+        checked on-chain). Paid shares do not require a follow.
+      </p>
+      <ol class="steps">
+        <li>
+          <a id="follow-link" class="btn btn-ghost" href="https://x.com/jajall9rry" target="_blank" rel="noopener">Step 1 — Follow @jajall9rry on X</a>
+          <span id="follow-done" class="step-done hidden">✓ done</span>
+        </li>
+        <li>
+          <label for="x-handle">Step 2 — Your X handle</label>
+          <input id="x-handle" type="text" placeholder="@yourhandle" autocomplete="off" spellcheck="false">
+        </li>
+      </ol>
+      <button id="claim-free-btn" class="btn btn-primary" disabled>Claim 1 Free Share</button>
+      <p id="free-status" class="status-line"></p>
+    </div>
+
+    <!-- Buy -->
+    <div id="buy-box" class="action-box">
+      <h3>Buy shares</h3>
+      <p class="muted">Paid shares open after the free quota is taken. Limit: 11 shares per wallet in total (1 free + up to 10 paid).</p>
+      <div class="buy-row">
+        <label for="buy-n">Shares</label>
+        <input id="buy-n" type="number" min="1" max="10" step="1" value="1">
+        <span id="buy-cost" class="buy-cost">Cost: —</span>
+      </div>
+      <p id="buy-cap" class="muted"></p>
+      <button id="buy-btn" class="btn btn-primary" disabled>Buy Shares</button>
+      <p id="buy-status" class="status-line"></p>
+    </div>
+
+    <!-- Finalize (sold out, not yet graduated) -->
+    <div id="finalize-box" class="action-box hidden">
+      <h3>Sold out — open the pool</h3>
+      <p class="muted">All 10,000 shares are taken. Anyone can call the one-time finalize step that creates the pool and unlocks claims — the contract unlocks this step on Dec 4, 2026 · 17:00 UTC; before then, the call reverts even though the sale is sold out.</p>
+      <button id="finalize-btn" class="btn btn-primary">Finalize &amp; Open Pool</button>
+      <p id="finalize-status" class="status-line"></p>
+    </div>
+
+    <!-- Claim after graduation -->
+    <div id="claim-box" class="action-box hidden">
+      <h3>Claim your JAL + cashback</h3>
+      <p id="claim-detail" class="muted"></p>
+      <div class="wave-box">
+        <h4>Claim waves — enforced by the contract</h4>
+        <table class="wave-table">
+          <thead>
+            <tr><th>Opens (UTC)</th><th>Share positions</th></tr>
+          </thead>
+          <tbody id="claim-waves-body"></tbody>
+        </table>
+        <p class="muted">
+          <strong>How the waves work — stated plainly:</strong> claims are enforced
+          on-chain in waves by share position: the contract releases each lot only
+          when its wave opens, and the pool itself cannot open before Dec 4, 17:00 UTC.
+          Calling claim() releases only the lots whose waves have already opened —
+          the rest stay locked in the contract until their wave opens.
+        </p>
+        <p id="claim-wave-status" class="status-line"></p>
+      </div>
+      <button id="claim-btn" class="btn btn-primary">Claim</button>
+      <p id="claim-status" class="status-line"></p>
+    </div>
+
+    <!-- Refund after failure -->
+    <div id="refund-box" class="action-box hidden">
+      <h3>Sale ended below target — refunds are open</h3>
+      <p id="refund-detail" class="muted"></p>
+      <button id="refund-btn" class="btn btn-primary">Withdraw 100% Refund</button>
+      <p id="refund-status" class="status-line"></p>
+    </div>
+
+    <p id="my-position" class="my-position"></p>
+  </section>
+
+  <!-- ======================= CHECK-IN ======================= -->
+  <section id="checkin" class="panel">
+    <h2>Daily Check-In — optional check-in rewards</h2>
+    <p class="muted">
+      A separate, optional program run by the JajalCheckIn contract. Checking in is
+      <strong>not</strong> required to join the share sale, claim shares, or use the skill
+      directory — it is simply a way for Agent ID holders to collect check-in days while
+      the program runs, and to earn a one-time JAL bonus once they reach 7 check-in days.
+    </p>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <span class="stat-label">Check-in fee</span>
+        <span class="stat-value" id="ci-fee">0.0001 BNB</span>
+        <span class="stat-sub">per check-in · max 1 per day (UTC)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Bonus reserve left</span>
+        <span class="stat-value" id="ci-reserve">—</span>
+        <span class="stat-sub">of 300,000,000 JAL — minted only if the sale completes</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Pool share held</span>
+        <span class="stat-value" id="ci-pool">—</span>
+        <span class="stat-sub">50% of all check-in fees, held by the contract</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Program status</span>
+        <span class="stat-value" id="ci-status">—</span>
+      </div>
+    </div>
+
+    <div class="how">
+      <h3>How check-in works — all rules in the open</h3>
+      <ul>
+        <li><strong>Optional, once a day.</strong> Any Agent ID holder can check in once per day (UTC) for a fee of 0.0001 BNB. There is no obligation to take part, and skipping a day costs nothing — your check-in days add up cumulatively and never reset.</li>
+        <li><strong>Where the fee goes:</strong> 50% is paid to the team wallet named in the contract (project operating costs — disclosed here in the open). The other 50% stays in the check-in contract as pool funds. After the sale completes and the pool opens, those held funds are added to the JAL/WBNB liquidity pool. If the sale fails instead, every check-in participant can claim back exactly their own pool share — 50% of the total check-in fees they personally paid — in a single claim through this same contract. Team share is non-refundable; pool share is refundable if the sale fails.</li>
+        <li><strong>7 check-in days badge:</strong> check in on 7 different days (UTC) — they do not have to be in a row — and the contract mints you a check-in badge NFT. Badge earning closes on Dec 8, 2026 (16:59 UTC). The badge is soulbound — it cannot be transferred or sold.</li>
+        <li><strong>Badge bonus:</strong> badge holders can claim a one-time bonus equal to 35% of their final JAL allocation from the sale (their shares × 100,000 JAL × 35%). The bonus is paid out of the 300,000,000 JAL check-in reserve, first come first served — once the reserve is empty, no further bonuses are paid. Bonus claims open only after the sale completes and the pool opens, because that is when the reserve is minted, and they stay open until the program ends on Dec 14, 2026 (16:59 UTC). Any reserve still left after that date is burned — the contract's burnRemainder() function is permissionless, so anyone can trigger that burn once the program end date written in the contract has passed.</li>
+        <li>Check-in starts on launch day, together with the sale, and stays open until Dec 8, 2026 (16:59 UTC) — a few days past the sale deadline. If the sale misses its target on Dec 5, check-in stops on Dec 5 instead, and the pool refunds described above open. The check-in contract has no owner and no withdraw function outside the rules above.</li>
+      </ul>
+    </div>
+
+    <div class="action-box">
+      <h3>Your check-in</h3>
+      <p class="muted" id="ci-my-hint">Connect your wallet to see your check-in days and check in.</p>
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-label">Check-in days</span>
+          <span class="stat-value" id="ci-my-streak">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Checked in today (UTC)</span>
+          <span class="stat-value" id="ci-my-today">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Check-in badge</span>
+          <span class="stat-value" id="ci-my-badge">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Your bonus</span>
+          <span class="stat-value" id="ci-my-bonus">—</span>
+        </div>
+      </div>
+      <div class="buy-row">
+        <button id="ci-checkin-btn" class="btn btn-primary" disabled>Check In — 0.0001 BNB</button>
+        <button id="ci-bonus-btn" class="btn hidden">Claim Bonus</button>
+        <button id="ci-refund-btn" class="btn hidden">Claim Check-In Pool Refund</button>
+      </div>
+      <p id="ci-my-status" class="status-line"></p>
+    </div>
+    <p id="ci-notlive" class="muted hidden">The check-in contract is not live yet — it launches together with the sale, so this panel is informational until then and its buttons stay disabled.</p>
+  </section>
+
+  <!-- ======================= DIRECTORY ======================= -->
+  <section id="directory" class="panel">
+    <h2>AgentCraft — Skill Directory</h2>
+    <p class="muted">
+      A permanent, on-chain directory for Agent ID holders. Register the skills you offer, and
+      endorse the skills of other agents. Endorsements attach to an Agent ID — and because an
+      Agent ID cannot be transferred, one identity carries one voice. No fees, no owner, no expiry.
+    </p>
+    <p class="muted" id="directory-stats">—</p>
+
+    <div class="action-box">
+      <h3>Your skills</h3>
+      <p class="muted" id="my-skills-hint">Connect your wallet to manage your skills.</p>
+      <div id="my-skills" class="chips"></div>
+      <p id="skills-status" class="status-line"></p>
+    </div>
+
+    <div class="action-box">
+      <h3>Endorsement leaderboard</h3>
+      <ol id="leaderboard" class="leaderboard"><li class="muted">Loading…</li></ol>
+    </div>
+
+    <div class="action-box">
+      <h3>Registered agents</h3>
+      <div id="agent-list" class="agent-list"><p class="muted">Loading…</p></div>
+      <p id="directory-status" class="status-line"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <p class="footer-strong">No owner. No admin. No withdraw function.</p>
+    <p>
+      The sale and directory contracts are immutable and open-source. Anyone can read exactly what
+      they do before interacting.
+    </p>
+    <ul class="contracts">
+      <li>JajalSale (share sale): <span id="ft-sale">—</span></li>
+      <li>$JAL token: <span id="ft-jal">—</span></li>
+      <li>AgentCraft (skill directory): <span id="ft-craft">—</span></li>
+      <li>JajalCheckIn (daily check-in): <span id="ft-checkin">—</span></li>
+      <li>Agent ID registry (SPACE ID): <a href="https://bscscan.com/address/0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F" target="_blank" rel="noopener">0x60B9…022F</a></li>
+    </ul>
+    <p>
+      jajal.agent is a project entry in the Agent ID Hackathon by Binance Wallet and BNB Chain
+      (submission period 18 Nov – 9 Dec 2026). Official updates are posted only on
+      <a href="https://x.com/jajall9rry" target="_blank" rel="noopener">X — @jajall9rry</a>.
+    </p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script src="config.js"></script>
+<script src="abi.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
