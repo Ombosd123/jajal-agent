@@ -181,6 +181,8 @@ footer { border-top: 1px solid var(--border); background: var(--bg-2); }
 }
 
 /* Partner — SYMPHONY */
+.header-links a.nav-partner { color: #eec25e; font-weight: 700; }
+.header-links a.nav-partner:hover { color: #f5d67a; }
 .partner-panel { border-color: rgba(238, 194, 94, 0.45); }
 .partner-card { display: flex; gap: 16px; align-items: flex-start; }
 .partner-logo { border-radius: 12px; border: 1px solid rgba(238, 194, 94, 0.45); flex: none; }
