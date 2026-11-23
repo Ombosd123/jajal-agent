@@ -186,6 +186,23 @@
     <p id="my-position" class="my-position"></p>
   </section>
 
+  <!-- ======================= PARTNER ======================= -->
+  <section id="partner" class="panel partner-panel">
+    <h2>Partner</h2>
+    <div class="partner-card">
+      <img class="partner-logo" src="https://symphony-opus.pages.dev/assets/logo.png" alt="SYMPHONY logo" width="54" height="54">
+      <div class="partner-body">
+        <p class="partner-name">SYMPHONY <span class="partner-ticker">($OPUS)</span></p>
+        <p class="muted">
+          A fair-mint where every note is on-chain. Free Prelude registration is open now — and the
+          sale opens only if at least 500 Agent ID holders have registered by 12 Dec 2026, 12:00 UTC.
+        </p>
+        <p class="partner-count" id="partner-count">Registrations so far: — / 500</p>
+        <a class="btn btn-partner" href="https://symphony-opus.pages.dev/#prelude" target="_blank" rel="noopener">Join SYMPHONY — register free</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ======================= CHECK-IN ======================= -->
   <section id="checkin" class="panel">
     <h2>Daily Check-In — optional check-in rewards</h2>
@@ -311,6 +328,13 @@
     </p>
   </div>
 </footer>
+
+<div id="partner-toast" class="partner-toast hidden" role="dialog" aria-label="Partner project">
+  <button id="partner-toast-close" class="partner-toast-close" aria-label="Dismiss">&times;</button>
+  <p class="partner-toast-title">Partner project — SYMPHONY ($OPUS)</p>
+  <p class="muted">You are in. One more stage is warming up: free Prelude registration for SYMPHONY is open, and its sale opens only if 500 Agent ID holders register by 12 Dec 2026.</p>
+  <a class="btn btn-partner" href="https://symphony-opus.pages.dev/#prelude" target="_blank" rel="noopener">Register free for Prelude</a>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
 <script src="config.js"></script>

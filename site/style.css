@@ -179,3 +179,31 @@ footer { border-top: 1px solid var(--border); background: var(--bg-2); }
   .panel { padding: 16px; }
   .header-links { margin-left: 0; }
 }
+
+/* Partner — SYMPHONY */
+.partner-panel { border-color: rgba(238, 194, 94, 0.45); }
+.partner-card { display: flex; gap: 16px; align-items: flex-start; }
+.partner-logo { border-radius: 12px; border: 1px solid rgba(238, 194, 94, 0.45); flex: none; }
+.partner-name { font-size: 1.15rem; font-weight: 700; color: #eec25e; margin: 0 0 6px; }
+.partner-ticker { color: var(--muted); font-weight: 400; }
+.partner-count { color: #eec25e; font-weight: 600; margin: 10px 0 12px; }
+.btn-partner {
+  background: linear-gradient(90deg, #a37f1d, #eec25e);
+  color: #141414; border: 0; font-weight: 700; text-decoration: none;
+  display: inline-block;
+}
+.btn-partner:hover:not(:disabled) { border-color: transparent; filter: brightness(1.07); }
+.partner-toast {
+  position: fixed; right: 16px; bottom: 16px; z-index: 60; max-width: 340px;
+  background: var(--card); border: 1px solid #eec25e; border-radius: var(--radius);
+  padding: 16px 18px; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+}
+.partner-toast-title { color: #eec25e; font-weight: 700; margin: 0 24px 6px 0; }
+.partner-toast-close {
+  position: absolute; top: 6px; right: 10px; background: transparent; border: 0;
+  color: var(--muted); font-size: 22px; line-height: 1; cursor: pointer;
+}
+@media (max-width: 560px) {
+  .partner-card { flex-direction: column; }
+  .partner-toast { left: 16px; max-width: none; }
+}

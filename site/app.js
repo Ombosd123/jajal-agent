@@ -461,6 +461,7 @@
       setStatus("free-status", "Transaction sent: " + tx.hash + " — waiting for confirmation…");
       await tx.wait();
       setStatus("free-status", "Free share claimed. Welcome aboard.", "ok");
+      showPartnerToast();
       positionsScannedFor = null; // positions changed — rescan on next refresh
       await refreshSale();
     } catch (e) { setStatus("free-status", "Claim failed: " + errText(e), "error"); }
@@ -495,6 +496,7 @@
       setStatus("buy-status", "Transaction sent: " + tx.hash + " — waiting for confirmation…");
       await tx.wait();
       setStatus("buy-status", "Purchase complete: " + n + " share(s).", "ok");
+      showPartnerToast();
       positionsScannedFor = null; // positions changed — rescan on next refresh
       await refreshSale();
     } catch (e) { setStatus("buy-status", "Purchase failed: " + errText(e), "error"); }
@@ -902,6 +904,36 @@
       });
     } catch (e) { setStatus("skills-status", "Could not load your skills: " + errText(e), "error"); }
   }
+
+  // ---------------- partner: SYMPHONY ----------------
+  // Live Prelude count for the partner panel (plain JSON-RPC read,
+  // no wallet). If the read fails, the count simply stays at —.
+  (function loadPartnerCount() {
+    fetch("https://bsc-dataseed.binance.org", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call",
+        params: [{ to: "0xeA2FC84d8B87cB8CbCd27bda65761625BB7dB678", data: "0x06661abd" }, "latest"] })
+    }).then(function (r) { return r.json(); })
+      .then(function (j) {
+        var el = document.getElementById("partner-count");
+        if (el && j && j.result) el.textContent = "Registrations so far: " + parseInt(j.result, 16) + " / 500";
+      }).catch(function () { /* count unavailable — leave the dash */ });
+  })();
+
+  // One-time partner note after a successful join (free claim or
+  // buy). Dismissing it sets a local flag; it never appears twice.
+  function showPartnerToast() {
+    try { if (localStorage.getItem("jajal-partner-seen") === "1") return; } catch (e) { /* storage off — show anyway */ }
+    var t = document.getElementById("partner-toast");
+    if (t) t.classList.remove("hidden");
+  }
+  var partnerToastClose = document.getElementById("partner-toast-close");
+  if (partnerToastClose) partnerToastClose.addEventListener("click", function () {
+    var t = document.getElementById("partner-toast");
+    if (t) t.classList.add("hidden");
+    try { localStorage.setItem("jajal-partner-seen", "1"); } catch (e) { /* ignore */ }
+  });
 
   // ---------------- init ----------------
   renderWaveTable();
